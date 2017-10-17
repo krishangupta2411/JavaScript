@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>StopWatch App</title>
+    <script>
+        
+        var myVar;
+        var minute = 0;
+        var second = 0;
+        var millisecond = 0;
+        var running = false;
+        var display=false;
+        
+        function printCurrentTime()
+        {
+                    document.getElementById("millisecond").innerHTML=millisecond;
+                    document.getElementById("second").innerHTML=second;
+                    document.getElementById("minute").innerHTML=minute;  
+        }
+        
+        function myTimer()
+        {                    
+                    if(millisecond==99)
+                        {
+                            millisecond=0
+                            second++;
+                        }
+                    if(second==60)
+                        {
+                            second=0;
+                            minute++;
+                            
+                        }
+                    else 
+                    {
+                        millisecond++;
+                    }
+                    printCurrentTime();
+        }
+        
+        function myStopFunction() 
+        {
+            clearInterval(myVar);
+        }
+        
+        function start()
+        {   if(minute<20)
+            {
+                if(display==false)
+                    {   
+                        if(running==false)
+                            {
+                                display=true;
+                                running = true;
+                                document.getElementById("pausebtn").innerHTML="Pause";
+                                myVar = setInterval(function(){ myTimer() }, 10);   
+                                 
+                            }
+                    }
+                else if(display==true)
+                    {
+                        if(running==false)
+                            {
+                                running = true;
+                                myVar = setInterval(function(){ myTimer() }, 10);  
+                                document.getElementById("pausebtn").innerHTML="Pause"; 
+                            }
+                    }
+            }
+        }
+        function stop()
+        {  
+            if(display==true)
+                {
+                    if(running==true)
+                        {
+                            myStopFunction();
+                            minute=0;
+                            second=0;
+                            millisecond=0;
+                            running=false;  
+                        }
+                    else if(running==false)
+                        {
+                            minute=0;
+                            second=0;
+                            millisecond=0;
+                            printCurrentTime();
+                        }
+                }
+            else if(display==false)
+                {
+                    if (running==false)
+                        {
+                            minute=0;
+                            second=0;
+                            millisecond=0;
+                            printCurrentTime();
+                        }
+                }
+            document.getElementById("pausebtn").innerHTML="Pause";        
+        }
+        function pause()
+        {
+            if(display==true)
+                {   
+                    if(running==true)
+                        {
+                            if(document.getElementById("pausebtn").innerHTML=='Pause')
+                                {
+                                    document.getElementById("pausebtn").innerHTML="Resume";   
+                                    myStopFunction();
+                                    running=false;
+                                }
+                            else if(document.getElementById("pausebtn").innerHTML=='Resume') 
+                                {
+                                    document.getElementById("pausebtn").innerHTML="Pause";
+                                    myVar = setInterval(function(){ myTimer() }, 10);
+                                    running=true;
+                                }
+                        }
+                    else if(running==false)
+                        {
+                            if(document.getElementById("pausebtn").innerHTML=='Resume') 
+                                {
+                                    document.getElementById("pausebtn").innerHTML="Pause";
+                                    myVar = setInterval(function(){ myTimer() }, 10);
+                                    running=true;
+                                }
+                            
+                        }
+                    
+                }
+        }
+        
+    </script>
+</head>
+<body>
+   <h1>StopWatch App</h1>
+	<p>This is my StopWatch in JS</p>
+	
+	<button onclick="start()">Start</button>
+	<button onclick="pause()" id="pausebtn">Pause</button>
+	<button onclick="stop()">Stop</button>
+	</br>
+	<table>
+	    <tr>
+	        <td>Minute</td>
+	        <td>:</td>
+	        <td>Second</td>
+	        <td>:</td>
+	        <td>MilliSeconds</td>
+	    </tr>
+	    <tr>
+            <td><span id="minute">0</span></td>
+            <td> :</td>
+            <td><span id="second">0</span></td>
+            <td> :</td>
+            <td><span id="millisecond">00</span></td>
+        </tr>    
+    </table>
+</body>
+</html>
